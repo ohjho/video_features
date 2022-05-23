@@ -10,7 +10,7 @@ from utils.utils import sanity_check
 
 MODEL_ZOO = [
     # r21d: after read_video, we keep running out of memory during transform()
-    # {'name': 'r21d', 'feature_type': 'r21d', 'extractor': ExtractR21D},
+    {'name': 'r21d', 'feature_type': 'r21d', 'extractor': ExtractR21D, 'ft_file_ext': '_r21d.npy'},
     {'name': 'i3d', 'feature_type': 'i3d', 'extractor': ExtractI3D, 'ft_file_ext': '_rgb.npy'},
     {'name': 'vggish', 'feature_type': 'vggish', 'extractor': ExtractVGGish, 'ft_file_ext': '_vggish.npy'},
 ]
@@ -71,7 +71,7 @@ def vid2vec(vid_path, model_name='id3',
         'extraction_fps': extraction_fps,
         'step_size': step_size,
         'stack_size': stack_size,
-        'show_pred': debug,
+        'show_pred': True,
         'keep_tmp_files': False,
         'on_extraction': 'print' if debug else 'save_numpy',   #print, save_numpy, or save_pickle
         'output_path': output_dir,        # only for save_numpy or save_pickle
