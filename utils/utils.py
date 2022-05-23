@@ -60,7 +60,7 @@ def action_on_extraction(feats_dict: Dict[str, np.ndarray], video_path, output_p
     # since the features are enclosed in a dict with another meta information we will iterate on kv
     for key, value in feats_dict.items():
         if on_extraction == 'print':
-            if key == 'pred':
+            if 'labels' in key:
                 continue
             print(key)
             print(value)
