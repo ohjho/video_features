@@ -150,7 +150,8 @@ class ExtractI3D(torch.nn.Module):
                     if self.show_pred:
                         softmaxes, logits = models[stream](stream_slice, features=False)  # (B, classes=400)
                         print(f'{video_path} @ stack {stack_counter} ({stream} stream)')
-                        show_predictions_on_dataset(logits, 'kinetics')
+                        preds = show_predictions_on_dataset(logits, 'kinetics')
+                        feats_dict['pred'].extend(preds)
 
         # take the video, change fps and save to the tmp folder
         if self.extraction_fps is not None:
@@ -162,6 +163,8 @@ class ExtractI3D(torch.nn.Module):
         timestamps_ms = []
         stack = []
         feats_dict = {stream: [] for stream in self.streams}
+        if self.show_pred:
+            feats_dict['pred'] = []
 
         # sometimes when the target fps is 1 or 2, the first frame of the reencoded video is missing
         # and cap.read returns None but the rest of the frames are ok. timestep is 0.0 for the 2nd frame in

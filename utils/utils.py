@@ -44,6 +44,7 @@ def show_predictions_on_dataset(logits: torch.FloatTensor, dataset: str):
         for (logit, smax, cls) in zip(logits_score[b], softmax_score[b], class_labels[b]):
             print(f'{logit:.3f} {smax:.3f} {cls}')
         print()
+    return [[logit, smax, c] for logit, smax, c in zip(logits_score, softmax_score, class_labels)]
 
 def action_on_extraction(feats_dict: Dict[str, np.ndarray], video_path, output_path, on_extraction: str):
     '''What is going to be done with the extracted features.
@@ -59,6 +60,8 @@ def action_on_extraction(feats_dict: Dict[str, np.ndarray], video_path, output_p
     # since the features are enclosed in a dict with another meta information we will iterate on kv
     for key, value in feats_dict.items():
         if on_extraction == 'print':
+            if key == 'pred':
+                continue
             print(key)
             print(value)
             print(f'max: {value.max():.8f}; mean: {value.mean():.8f}; min: {value.min():.8f}')
